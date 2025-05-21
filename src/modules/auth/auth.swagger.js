@@ -31,4 +31,10 @@
  *         application/x-www-form-urlencoded:
  *           schema:
  *             $ref: '#/components/schemas/sendOtp'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/sendOtp'
+ *      response:
+ *          200:
+ *               description:success
  */
