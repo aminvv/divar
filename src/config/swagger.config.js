@@ -4,13 +4,14 @@ const swaggerUi=require('swagger-ui-express')
 function swaggerConfig(app){
     const swaggerDoc=swaggerJsDoc({
     definition:{
+        openapi: '3.0.0',
         info:{
             title:'divar',
             description:' botostart nodejs course',
             version:'0.0.1'
         }
     },
-    apis:[]
+    apis:[process.cwd()+ '/src/modules/**/*.swagger.js']
 })
 
 const swagger=swaggerUi.setup(swaggerDoc,{})
