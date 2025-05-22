@@ -1,8 +1,8 @@
 /**
  * @swagger
  * tags:
- *  name: Auth
- *  description: Auth modules and Routes
+ *   - name: Auth
+ *     description: Auth modules and Routes
  */
 
 /**
@@ -16,7 +16,17 @@
  *       properties:
  *         mobile:
  *           type: string
- */
+ *     checkOtp:
+ *       type: object
+ *       required:
+ *         - mobile
+ *         - code
+ *       properties:
+ *         mobile:
+ *           type: string
+ *         code:
+ *           type: string
+*/
 
 /**
  * @swagger
@@ -34,7 +44,31 @@
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/sendOtp'
- *      response:
- *          200:
- *               description:success
+ *     responses:
+ *       200:
+ *         description: success
+ */
+
+
+
+
+/** 
+ * @swagger
+ * /auth/check-otp:
+ *   post:
+ *     summary: check otp for login
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: '#/components/schemas/checkOtp'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/checkOtp'
+ *     responses:
+ *       200:
+ *         description: success
  */

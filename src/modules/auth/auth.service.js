@@ -15,18 +15,21 @@ class AuthService {
         const now = new Date().getTime()
         const otp = {
             code: randomInt(10000, 99999),
-            expiresIn: new Date() + (1000 * 60 * 2)
+            expiresIn: Date.now() + 1000 * 60 * 2
+
         }
-        const user = await this.checkExistByMobile(mobile)
-        if (user.otp & user.expiresIn > now) {
+        const user = await this.#model.findOne({ mobile })
+
+        if (!user) {
+            const newUser = await this.#model.create({ mobile, otp })
+            return newUser
+        }
+
+        if (user.otp && user.otp.expiresIn > now) {
             throw new createHttpError.BadRequest(AuthMessages.OtpCodeNotExpired)
         }
 
 
-        if (!user) {
-            const newUser = await this.#model.createHttpError({ mobile, otp })
-            return newUser
-        }
 
 
         user.otp = otp
@@ -34,7 +37,16 @@ class AuthService {
         return user
     }
 
-    checkOtp(code, mobile) {
+    async checkOtp(mobile,code) {
+        const now = new Date().getTime()
+        const user = await this.checkExistByMobile(mobile)
+        if (user?.otp?.expiresIn < now)throw (AuthMessages.OtpCodeNotExpired)
+        if (user?.otp?.code !== code )throw (AuthMessages.OtpCodeISIncorrect)
+            if(!user.verifiedMobile){
+                user.verifiedMobile=true
+                await user.save()
+            }
+            return user
 
     }
 
@@ -46,7 +58,7 @@ class AuthService {
 
 
     async checkExistByMobile(mobile) {
-        const user = await this.#model.findOne(mobile)
+        const user = await this.#model.findOne({ mobile })
         if (!user) throw new createHttpError.NotFound(AuthMessages.NotFound)
         return user
     }

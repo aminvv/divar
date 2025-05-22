@@ -12,6 +12,7 @@ async function main(){
 
     const app=express()
     app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
     const PORT=process.env.PORT
     app.use(mainRoutes)
     require('./config/mongoose.config')
