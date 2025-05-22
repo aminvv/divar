@@ -9,6 +9,7 @@ const UserSchema=new Schema({
     mobile:{type:String,required:true,unique:true},
     otp:{type:OtpSchema},
     verifiedMobile:{type:Boolean,default:false,required:true},
+    accessToken:{type:String},
 },{timestamps:true})
 
 const UserModel=model('user',UserSchema)

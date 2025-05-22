@@ -1,6 +1,7 @@
 const authService=require('./auth.service.js')
 const AuthMessages = require('./auth.messages')
 const autoBind = require('auto-bind')
+
 class AuthController{
     #Service
     constructor(){
@@ -45,6 +46,10 @@ logOut(req,res,next){
         
     }
 }
+
+
+
+
 
 }
 

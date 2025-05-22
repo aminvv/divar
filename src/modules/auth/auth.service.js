@@ -3,7 +3,9 @@ const createHttpError = require('http-errors')
 const AuthMessages = require('./auth.messages')
 const { randomInt } = require('crypto')
 const { UserModel } = require('../user/model/user.model')
-
+const JWT = require('jsonwebtoken')
+const dotenv= require('dotenv')
+dotenv.config()
 class AuthService {
 
     #model
@@ -37,16 +39,20 @@ class AuthService {
         return user
     }
 
-    async checkOtp(mobile,code) {
+    async checkOtp(mobile, code) {
         const now = new Date().getTime()
         const user = await this.checkExistByMobile(mobile)
-        if (user?.otp?.expiresIn < now)throw (AuthMessages.OtpCodeNotExpired)
-        if (user?.otp?.code !== code )throw (AuthMessages.OtpCodeISIncorrect)
-            if(!user.verifiedMobile){
-                user.verifiedMobile=true
-                await user.save()
+        if (user?.otp?.expiresIn < now) throw (AuthMessages.OtpCodeNotExpired)
+        if (user?.otp?.code !== code) throw (AuthMessages.OtpCodeISIncorrect)
+            if (!user.verifiedMobile) {
+                user.verifiedMobile = true
             }
-            return user
+            const accessToken = this.signToken({ mobile, id: user._id })
+            user.accessToken=accessToken
+            await user.save()
+        return {
+            user,
+        }
 
     }
 
@@ -61,6 +67,12 @@ class AuthService {
         const user = await this.#model.findOne({ mobile })
         if (!user) throw new createHttpError.NotFound(AuthMessages.NotFound)
         return user
+    }
+
+
+    signToken(payload) {
+        const token = JWT.sign(payload, process.env.SECRET_KEY_TOKEN, { expiresIn: "1y" })
+        return token
     }
 
 
