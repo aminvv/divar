@@ -1,6 +1,7 @@
 const authService=require('./auth.service.js')
 const AuthMessages = require('./auth.messages')
 const autoBind = require('auto-bind')
+const { NodeEnv } = require('../../common/constant/env.enum.js')
 
 class AuthController{
     #Service
@@ -27,11 +28,13 @@ async sendOtp(req,res,next){
 async checkOtp(req,res,next){
     try {
         const {mobile,code}=req.body
-        const  result=await this.#Service.checkOtp(mobile,code)
-        return res.json(
+        const  token=await this.#Service.checkOtp(mobile,code)
+        return res.cookie("act",token,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV === NodeEnv.Production
+        }).json(
             {
             message:AuthMessages.LoginSuccessfully,
-            result
         }
         )
     } catch (error) {

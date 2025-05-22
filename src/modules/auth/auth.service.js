@@ -51,7 +51,7 @@ class AuthService {
             user.accessToken=accessToken
             await user.save()
         return {
-            user,
+            accessToken,
         }
 
     }
