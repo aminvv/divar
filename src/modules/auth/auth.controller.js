@@ -29,7 +29,7 @@ async checkOtp(req,res,next){
     try {
         const {mobile,code}=req.body
         const  token=await this.#Service.checkOtp(mobile,code)
-        return res.cookie("act",token,{
+        return res.cookie("accessToken",token,{
             httpOnly:true,
             secure:process.env.NODE_ENV === NodeEnv.Production
         }).json(

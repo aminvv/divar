@@ -50,9 +50,8 @@ class AuthService {
             const accessToken = this.signToken({ mobile, id: user._id })
             user.accessToken=accessToken
             await user.save()
-        return {
-            accessToken,
-        }
+        return  accessToken
+        
 
     }
 
