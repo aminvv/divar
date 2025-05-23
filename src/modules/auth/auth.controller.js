@@ -1,5 +1,6 @@
 const authService=require('./auth.service.js')
 const AuthMessages = require('./auth.messages')
+const {CookieName} = require('../../common/constant/cookie.enum.js')
 const autoBind = require('auto-bind')
 const { NodeEnv } = require('../../common/constant/env.enum.js')
 
@@ -44,7 +45,9 @@ async checkOtp(req,res,next){
 
 logOut(req,res,next){
     try {
-        
+        return res.clearCookie(CookieName.accessToken).status(200).json({
+            message:AuthMessages.LoggedOutSuccessfully
+        })
     } catch (error) {
         
     }
