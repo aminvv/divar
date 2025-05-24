@@ -8,7 +8,7 @@ const categorySchema=new Schema({
     icon:{type:String,required:true},
     parent:{type:Types.ObjectId,ref:"category",required:false},
     parents:{type:[Types.ObjectId],ref:"category",required:false,default:[]},
-},{virtuals:true,versionKey:false,id:false})
+},{versionKey:false,id:false,toJSON:{virtuals:true}})
 
 categorySchema.virtual(Children,{
     ref:"category",
