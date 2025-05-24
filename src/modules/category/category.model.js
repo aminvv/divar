@@ -1,5 +1,4 @@
 const { Schema, Types, model } = require("mongoose");
-const { Children } = require("react");
 
 
 const categorySchema=new Schema({
@@ -10,7 +9,7 @@ const categorySchema=new Schema({
     parents:{type:[Types.ObjectId],ref:"category",required:false,default:[]},
 },{versionKey:false,id:false,toJSON:{virtuals:true}})
 
-categorySchema.virtual(Children,{
+categorySchema.virtual("children",{
     ref:"category",
     localField:"_id",
     foreignField:"parent"
