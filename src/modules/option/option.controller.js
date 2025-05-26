@@ -1,50 +1,51 @@
 const autoBind = require("auto-bind")
 const OptionService = require("./option.service")
-const createHttpError = require("http-errors")
 const { OptionMessage } = require("./option.message")
 
- class OptionController{
+class OptionController {
     #service
-    constructor(){
+    constructor() {
         autoBind(this)
-        this.#service=OptionService
+        this.#service = OptionService
     }
 
-    async create( req,res){
+    async create(req, res, next) {
         try {
-            const {title,guid, type ,key, category,enum:list}=req.Body
-            return res.status(createHttpError.create).json({
-                message:OptionMessage.Create
+            const { title, guid, type, key, category, enum: list } = req.body
+            const option=await this.#service.create({title, guid, type, key, category, enum: list})
+            return res.status(201).json({
+                message: OptionMessage.Create
             })
         } catch (error) {
             next(error)
         }
 
     }
-    async find( req,res){
+    async find(req, res, next) {
         try {
-            
+            const option = await this.#service.find()
+            return res.json(option)
         } catch (error) {
-            
+            next(error)
         }
 
     }
-    async findById( req,res){
+    async findById(req, res) {
         try {
-            
+
         } catch (error) {
-            
+
         }
 
     }
-    async findByCategoryId( req,res){
+    async findByCategoryId(req, res) {
         try {
-            
+
         } catch (error) {
-            
+
         }
 
     }
- }
+}
 
- module.exports= new OptionController
+module.exports = new OptionController

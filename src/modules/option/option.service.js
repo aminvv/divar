@@ -15,18 +15,23 @@ class OptionService {
     }
 
     async create(optionDto) {
-        category = await this.checkExistById(optionDto.category)
+        const  category = await this.checkExistById(optionDto.category)
         optionDto.category = category._id
-        optionDto.key = slugify(optionDto, key, { trim: true, replacement: "_", lower: true })
-        await this.alreadyExistByCategoryAndKey(category._id, option.key)
+        optionDto.key = slugify(optionDto.key, { trim: true, replacement: "_", lower: true })
+        await this.alreadyExistByCategoryAndKey(category._id, optionDto.key)
 
         if (optionDto?.enum && typeof optionDto.enum === "string") {
             optionDto.enum = optionDto.enum.split(",")
-        } else if (Array.isArray(optionDto.enum)) optionDto.enum = []
+        } else if (Array.isArray(optionDto.enum)){
+             optionDto.enum = []
+        }
 
         const option = await this.#model.create(optionDto)
+         return option
     }
-    async find() {
+    async find() {  
+        const option=await this.#model.find({},{__v:0},{sort:{_id:-1}}).populate({path:'category',select:{name:1 ,slug:1}})
+        return option
 
     }
     async findById(id) {
