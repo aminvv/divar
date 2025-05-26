@@ -1,7 +1,7 @@
 const autoBind = require("auto-bind");
-const { CategoryService } = require("./category.service");
+const CategoryService = require("./category.service");
 const { CategoryMessage } = require("./category.message");
-const { HttpCodes } = require("http-codes");
+const { StatusCodes } = require("http-status-codes");
 
 
 class CategoryController {
@@ -14,20 +14,21 @@ class CategoryController {
     async create(req, res) {
         try {
             const { name, slug, icon, parent } = req.body
-            await this.#service.create(name, slug, icon, parent)
-            return res.status(HttpCodes.Create).json({
-                message:CategoryMessage.Create
+            await this.#service.create({ name, slug, icon, parent })
+            return res.status(201).json({
+                message: CategoryMessage.Create
             })
         } catch (error) {
-
+            console.error("ERROR IN CREATE:", error)
+            res.status(StatusCodes.InternalServerError).json({ message: "Server error" })
         }
     }
 
 
     async find(req, res) {
         try {
-            const category= await this.#service.find()
-            return res.json({category})
+            const category = await this.#service.find()
+            return res.json({ category })
         } catch (error) {
 
         }
@@ -36,4 +37,4 @@ class CategoryController {
 
 
 
-module.exports= new CategoryController
+module.exports = new CategoryController

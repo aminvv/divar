@@ -14,5 +14,13 @@ categorySchema.virtual("children",{
     localField:"_id",
     foreignField:"parent"
 })
+
+
+function autoPopulate(next){
+    this.populate([{path:"children"}])
+    next()
+}
+
+categorySchema.pre('find',autoPopulate).pre('findOne',autoPopulate)
 const categoryModel=model("category",categorySchema)
 module.exports=categoryModel

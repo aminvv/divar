@@ -1,8 +1,8 @@
 /**
  * @swagger
  * tags:
- *   name: Category
- *   description: category module
+ *   - name: Category
+ *     description: category module
  */
 
 /**
@@ -41,7 +41,11 @@
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/createCategory'
+ *     responses:
+ *       201:
+ *         description: created
  */
+
 /**
  * @swagger
  * /category:
@@ -50,6 +54,6 @@
  *     tags:
  *       - Category
  *     responses:
- *              200:
- *                description: successfully
+ *       200:
+ *         description: successfully
  */

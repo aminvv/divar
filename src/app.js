@@ -23,6 +23,7 @@ async function main(){
     AllExceptionHandler(app)
     app.listen(PORT,()=>{
         console.log(`server: http://localhost:${PORT}`);
+        console.log(`server: http://localhost:${PORT}/swagger`);
     })
 }
 
