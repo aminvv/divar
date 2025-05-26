@@ -72,7 +72,7 @@
  */
 /**
  * @swagger
- * /option/by-category/{categoryId}:
+ * /option/by-category/{CategoryId}:
  *   get:
  *     summary: Get  options by categoryId
  *     tags:

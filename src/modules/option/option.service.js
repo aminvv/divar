@@ -15,30 +15,42 @@ class OptionService {
     }
 
     async create(optionDto) {
-        const  category = await this.checkExistById(optionDto.category)
+        const category = await this.checkExistById(optionDto.category)
         optionDto.category = category._id
         optionDto.key = slugify(optionDto.key, { trim: true, replacement: "_", lower: true })
         await this.alreadyExistByCategoryAndKey(category._id, optionDto.key)
 
         if (optionDto?.enum && typeof optionDto.enum === "string") {
             optionDto.enum = optionDto.enum.split(",")
-        } else if (Array.isArray(optionDto.enum)){
-             optionDto.enum = []
+        } else if (Array.isArray(optionDto.enum)) {
+            optionDto.enum = []
         }
 
         const option = await this.#model.create(optionDto)
-         return option
+        return option
     }
-    async find() {  
-        const option=await this.#model.find({},{__v:0},{sort:{_id:-1}}).populate({path:'category',select:{name:1 ,slug:1}})
+
+
+
+
+    async find() {
+        const option = await this.#model.find({}, { __v: 0 }, { sort: { _id: -1 } }).populate({ path: 'category', select: { name: 1, slug: 1 } })
         return option
 
     }
+
+
+
+
     async findById(id) {
-
+        return await this.checkExistById(id)
     }
-    async findByCategoryId(CategoryId) {
 
+
+
+
+    async findByCategoryId(category) {
+        return await this.#model.find({ category }, { __v: 0 }).populate([{ path: "category", select: { name: 1, slug: 1 } }]);
     }
 
 
