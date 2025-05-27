@@ -111,7 +111,27 @@
  * @swagger
  * /option/{id}:
  *   get:
- *     summary: Get all options of a category
+ *     summary: Get  options of a category
+ *     tags:
+ *       - option
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully fetched
+ */
+
+
+
+/**
+ * @swagger
+ * /option/{id}:
+ *   delete:
+ *     summary: delete options of a category
  *     tags:
  *       - option
  *     parameters:

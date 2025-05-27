@@ -1,5 +1,6 @@
 const autoBind = require("auto-bind")
 const { OptionMessage } = require("./option.message")
+const { CategoryMessage } = require("./../category/category.message")
 const OptionModel = require("./model/option.model")
 const categoryModel = require("./../category/model/category.model")
 const createHttpError = require("http-errors")
@@ -15,7 +16,7 @@ class OptionService {
     }
 
     async create(optionDto) {
-        const category = await this.checkExistById(optionDto.category)
+        const category = await this.checkExistCategoryById(optionDto.category)
         optionDto.category = category._id
         optionDto.key = slugify(optionDto.key, { trim: true, replacement: "_", lower: true })
         await this.alreadyExistByCategoryAndKey(category._id, optionDto.key)
@@ -53,12 +54,21 @@ class OptionService {
         return await this.#model.find({ category }, { __v: 0 }).populate([{ path: "category", select: { name: 1, slug: 1 } }]);
     }
 
+    async removeById(id) {
+        await this.checkExistOptionById(id)
+        return await this.#model.deleteOne({_id:id})
 
+    }
 
-    async checkExistById(id) {
+    async checkExistCategoryById(id) {
         const category = await this.#CategoryModel.findById(id)
-        if (!category) throw new createHttpError.NotFound(OptionMessage.NotFound)
+        if (!category) throw new createHttpError.NotFound(CategoryMessage.NotFound)
         return category
+    }
+    async checkExistOptionById(id) {
+        const option = await this.#model.findById(id)
+        if (!option) throw new createHttpError.NotFound(OptionMessage.NotFound)
+        return option
     }
     async findByCategorySlug(slug) {
         const options = await this.#model.aggregate([
@@ -103,6 +113,9 @@ class OptionService {
         if (isExist) throw new createHttpError.Conflict(OptionMessage.AlreadyExist)
         return null
     }
+
+
+
 
 }
 

@@ -12,7 +12,7 @@ class OptionController {
     async create(req, res, next) {
         try {
             const { title, guid, type, key, category, enum: list } = req.body
-            const option = await this.#service.create({ title, guid, type, key, category, enum: list })
+            await this.#service.create({ title, guid, type, key, category, enum: list })
             return res.status(201).json({
                 message: OptionMessage.Create
             })
@@ -30,16 +30,26 @@ class OptionController {
         }
 
     }
+    async removeById(req, res, next) {
+        try {
+            const { id } = req.params;
+            await this.#service.removeById(id);
+            return res.json({ message: OptionMessage.Delete })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async findById(req, res, next) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
             const option = await this.#service.findById(id);
             return res.json(option)
         } catch (error) {
             next(error)
         }
     }
-    async findByCategoryId(req, res,next) {
+    async findByCategoryId(req, res, next) {
         try {
             const { CategoryId } = req.params
             const option = await this.#service.findByCategoryId(CategoryId)
@@ -51,7 +61,7 @@ class OptionController {
     }
 
 
-    async findByCategorySlug(req, res,next) {
+    async findByCategorySlug(req, res, next) {
         try {
             const { slug } = req.params
             const option = await this.#service.findByCategorySlug(slug)
