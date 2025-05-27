@@ -1,5 +1,6 @@
 const autoBind = require("auto-bind")
 const { OptionMessage } = require("./option.message")
+const { isFalse,isTrue } = require("../../common/utils/functions")
 const { CategoryMessage } = require("./../category/category.message")
 const OptionModel = require("./model/option.model")
 const categoryModel = require("./../category/model/category.model")
@@ -26,6 +27,9 @@ class OptionService {
         } else if (Array.isArray(optionDto.enum)) {
             optionDto.enum = []
         }
+
+        if(isTrue(optionDto?.required)) optionDto.required=true
+        if(isFalse(optionDto?.required)) optionDto.required=false
 
         const option = await this.#model.create(optionDto)
         return option
