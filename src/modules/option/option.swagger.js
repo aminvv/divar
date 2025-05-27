@@ -88,6 +88,24 @@
  *         description: Successfully fetched
  */
 
+/**
+ * @swagger
+ * /option/by-category-slug/{slug}:
+ *   get:
+ *     summary: Get  options by slug
+ *     tags:
+ *       - option
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully fetched
+ */
+
 
 /**
  * @swagger

@@ -60,6 +60,42 @@ class OptionService {
         if (!category) throw new createHttpError.NotFound(OptionMessage.NotFound)
         return category
     }
+    async findByCategorySlug(slug) {
+        const options = await this.#model.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category",
+                    foreignField: "_id",
+                    as: "category"
+
+                }
+            },
+            {
+                $unwind: '$category'
+            },
+            {
+                $addFields: {
+                    categorySlug: "$category.slug",
+                    categoryName: "$category.name",
+                    categoryIcon: "$category.icon",
+                }
+            },
+            {
+                $project: {
+                    category: 0,
+                    __v: 0,
+                }
+            },
+            {
+                $match: {
+                    categorySlug: slug,
+                }
+            }
+        ])
+        if (!options) throw new createHttpError.NotFound(OptionMessage.NotFound)
+        return options
+    }
 
 
     async alreadyExistByCategoryAndKey(category, key) {

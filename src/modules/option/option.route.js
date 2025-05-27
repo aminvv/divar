@@ -4,8 +4,9 @@ const router=Router()
 
 router.post('/',optionController.create)
 router.get('/',optionController.find)
-router.get('/:id',optionController.findById)
+router.get('/by-category-slug/:slug',optionController.findByCategorySlug)
 router.get('/by-category/:CategoryId',optionController.findByCategoryId)
+router.get('/:id',optionController.findById)
 
 module.exports={
     OptionRouters:router
