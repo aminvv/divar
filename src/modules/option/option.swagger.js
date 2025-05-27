@@ -25,6 +25,8 @@
  *           type: string
  *         category:
  *           type: string
+ *         required:
+ *           type: boolean
  *         type:
  *           type: string
  *           enum: 
@@ -48,10 +50,10 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         application/x-www-form-urlencoded:
  *           schema:
  *             $ref: '#/components/schemas/CreateOption'
- *         application/x-www-form-urlencoded:
+ *         application/ json:
  *           schema:
  *             $ref: '#/components/schemas/CreateOption'
  *     responses:
