@@ -38,6 +38,32 @@
  *           type: array
  *           items:
  *             type: string
+ * 
+ * 
+ *     UpdateOption:
+ *       type: object  
+ *       properties:
+ *         title:
+ *           type: string
+ *         key:
+ *           type: string
+ *         guid:
+ *           type: string
+ *         category:
+ *           type: string
+ *         required:
+ *           type: boolean
+ *         type:
+ *           type: string
+ *           enum: 
+ *             - number
+ *             - string
+ *             - array
+ *             - boolean
+ *         enum:
+ *           type: array
+ *           items:
+ *             type: string        
  */
 
 /**
@@ -56,6 +82,31 @@
  *         application/ json:
  *           schema:
  *             $ref: '#/components/schemas/CreateOption'
+ *     responses:
+ *       201:
+ *         description: Created
+ */
+
+
+/** 
+ * @swagger
+ * /option/{id}:
+ *   put:
+ *     summary: update new option for category
+ *     tags:
+ *       - option
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateOption'
+ *         application/ json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateOption'
  *     responses:
  *       201:
  *         description: Created

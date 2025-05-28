@@ -21,6 +21,23 @@ class OptionController {
         }
 
     }
+
+
+
+
+    async update(req, res, next) {
+        try {
+            const {title, key, guid, enum: list, type, category, required} = req.body;
+            const {id} = req.params;
+            await this.#service.update(id, {title, key, guid, enum: list, type, category, required})
+            return res.json({
+                message: OptionMessage.Update
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async find(req, res, next) {
         try {
             const option = await this.#service.find()

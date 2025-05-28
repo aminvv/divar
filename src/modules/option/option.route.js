@@ -3,6 +3,7 @@ const optionController = require("./option.controller")
 const router=Router()
 
 router.post('/',optionController.create)
+router.put('/:id',optionController.update)
 router.get('/',optionController.find)
 router.get('/by-category-slug/:slug',optionController.findByCategorySlug)
 router.get('/by-category/:CategoryId',optionController.findByCategoryId)
