@@ -9,6 +9,9 @@ mainRoutes.use('/auth',AuthRouter)
 mainRoutes.use('/user',UserRouter)
 mainRoutes.use('/category',CategoryRouter)
 mainRoutes.use('/option',OptionRouters)
+mainRoutes.use('/',(req,res,next)=>{
+    res.render('./pages/index.ejs')
+})
 
 
 module.exports={
