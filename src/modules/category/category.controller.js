@@ -25,12 +25,25 @@ class CategoryController {
     }
 
 
-    async find(req, res) {
+    async find(req, res, next) {
         try {
             const category = await this.#service.find()
             return res.json({ category })
         } catch (error) {
+            next(error)
+        }
+    }
 
+
+    async remove(req, res, next) {
+        const{id}=req.params
+        try {
+             await this.#service.remove(id)
+            return res.json({
+                message: CategoryMessage.Delete
+            })
+        } catch (error) {
+            next(error)
         }
     }
 }
